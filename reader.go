@@ -99,7 +99,7 @@ func (r *Reader) Next() (Shape, error) {
 		return readNull(r.shp, cl)
 	case TypePoint:
 		return readPoint(r.shp, cl)
-	case TypeMultipoint:
+	case TypeMultiPoint:
 		return readMultiPoint(r.shp, cl)
 	case TypePolyline:
 		return readPolyline(r.shp, cl)

@@ -21,7 +21,7 @@ func toJSON(data interface{}) []byte {
 	return b
 }
 
-func bboxsAreSame(a, b *BBox) bool {
+func bboxesAreSame(a, b *BBox) bool {
 	return math.Abs(a.MinX-b.MinX) < 0.0001 &&
 		math.Abs(a.MinY-b.MinY) < 0.0001 &&
 		math.Abs(a.MaxX-b.MaxX) < 0.0001 &&
@@ -31,7 +31,21 @@ func bboxsAreSame(a, b *BBox) bool {
 func headersAreSame(a, b *Header) bool {
 	return a.FileLength == b.FileLength &&
 		a.ShapeType == b.ShapeType &&
-		bboxsAreSame(&a.BBox, &b.BBox)
+		bboxesAreSame(&a.BBox, &b.BBox)
+}
+
+func allInt32sAreSame(a, b []int32) bool {
+	if len(a) != len(b) {
+		return false
+	}
+
+	for i, n := 0, len(a); i < n; i++ {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+
+	return true
 }
 
 func shapesAreSame(a, b Shape) bool {
@@ -43,7 +57,17 @@ func shapesAreSame(a, b Shape) bool {
 		return false
 	case *Point:
 		if bt, ok := b.(*Point); ok {
-			return pointsAreSame(at, bt)
+			return pointsAreSame(*at, *bt)
+		}
+		return false
+	case *MultiPoint:
+		if bt, ok := b.(*MultiPoint); ok {
+			return multiPointAreSame(at, bt)
+		}
+		return false
+	case *Polyline:
+		if bt, ok := b.(*Polyline); ok {
+			return polylinesAreSame(at, bt)
 		}
 		return false
 	}

@@ -5,9 +5,23 @@ import (
 	"testing"
 )
 
-func pointsAreSame(a, b *Point) bool {
+func pointsAreSame(a, b Point) bool {
 	return math.Abs(a.X-b.X) < 0.0001 &&
 		math.Abs(a.Y-b.Y) < 0.0001
+}
+
+func allPointsAreSame(a, b []Point) bool {
+	if len(a) != len(b) {
+		return false
+	}
+
+	for i, n := 0, len(a); i < n; i++ {
+		if !pointsAreSame(a[i], b[i]) {
+			return false
+		}
+	}
+
+	return true
 }
 
 func TestPoint(t *testing.T) {
