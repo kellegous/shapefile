@@ -70,6 +70,11 @@ func shapesAreSame(a, b Shape) bool {
 			return polylinesAreSame(at, bt)
 		}
 		return false
+	case *Polygon:
+		if bt, ok := b.(*Polygon); ok {
+			return polygonsAreSame(at, bt)
+		}
+		return false
 	}
 
 	return false
