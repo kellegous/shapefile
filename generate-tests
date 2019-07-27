@@ -73,6 +73,17 @@ def main():
             [0.0, 1.0, 100.0]
         ])
         w.record('b')
+    with shapefile.Writer('test_files/polylinem') as w:
+        w.field('name', 'C')
+        w.linem([
+            [[12, 56, 10.0], [70, 90, 11.0], [0, 0, 12.0]],
+            [[45, 6], [89.3, 12.2, None]]
+        ])
+        w.record('a')
+        w.linem([
+            [[0, 0, 4.0], [42.42, 66.66, 5.0]]
+        ])
+        w.record('b')
 
 if __name__ == '__main__':
     sys.exit(main())

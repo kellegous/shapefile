@@ -8,12 +8,50 @@ import (
 	"testing"
 )
 
+const NoData = -1e39
+
 type Expected struct {
 	Header *Header
 	Shapes []Shape
 }
 
+func float64ToDouble(v float64) float64 {
+	if math.IsNaN(v) {
+		return NoData
+	}
+	return v
+}
+
+func denormalizeMeasures(m *M) {
+	m.Range.Min = float64ToDouble(m.Range.Min)
+	m.Range.Max = float64ToDouble(m.Range.Max)
+	for i, n := 0, len(m.Measures); i < n; i++ {
+		m.Measures[i] = float64ToDouble(m.Measures[i])
+	}
+}
+
+func denormalizeAnyMeasures(data interface{}) {
+	shps, ok := data.([]Shape)
+	if !ok {
+		return
+	}
+
+	for _, shp := range shps {
+		switch t := shp.(type) {
+		case *PointM:
+			t.M = float64ToDouble(t.M)
+		case *MultiPointM:
+			denormalizeMeasures(&t.M)
+		case *PolylineM:
+			denormalizeMeasures(&t.M)
+		case *PolygonM:
+			denormalizeMeasures(&t.M)
+		}
+	}
+}
+
 func toJSON(data interface{}) []byte {
+	denormalizeAnyMeasures(data)
 	b, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
 		panic(err)
@@ -48,6 +86,32 @@ func allInt32sAreSame(a, b []int32) bool {
 	return true
 }
 
+func float64sAreSame(a, b float64) bool {
+	if math.IsNaN(a) && math.IsNaN(b) {
+		return true
+	}
+	return math.Abs(a-b) < 0.0001
+}
+
+func measuresAreSame(a, b *M) bool {
+	if !float64sAreSame(a.Range.Min, b.Range.Min) ||
+		!float64sAreSame(a.Range.Max, b.Range.Max) {
+		return false
+	}
+
+	if len(a.Measures) != len(b.Measures) {
+		return false
+	}
+
+	for i, n := 0, len(a.Measures); i < n; i++ {
+		if !float64sAreSame(a.Measures[i], b.Measures[i]) {
+			return false
+		}
+	}
+
+	return true
+}
+
 func shapesAreSame(a, b Shape) bool {
 	switch at := a.(type) {
 	case *Null:
@@ -73,6 +137,16 @@ func shapesAreSame(a, b Shape) bool {
 	case *Polygon:
 		if bt, ok := b.(*Polygon); ok {
 			return polygonsAreSame(at, bt)
+		}
+		return false
+	case *PointM:
+		if bt, ok := b.(*PointM); ok {
+			return pointMsAreSame(at, bt)
+		}
+		return false
+	case *PolylineM:
+		if bt, ok := b.(*PolylineM); ok {
+			return polylineMsAreSame(at, bt)
 		}
 		return false
 	}

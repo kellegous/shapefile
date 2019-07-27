@@ -11,8 +11,7 @@ type MultiPointM struct {
 	BBox           BBox
 	NumberOfPoints int32
 	Points         []Point
-	Range          Range
-	Measures       []float64
+	M
 }
 
 func sizeOfMultiPointM(n int32) int32 {
@@ -46,10 +45,9 @@ func readMultiPointM(r io.Reader, cl int32) (*MultiPointM, error) {
 	}
 
 	// Measures
-	mp.Measures = make([]float64, mp.NumberOfPoints)
 	if cl == min {
-		initNanMeasures(&mp.Range, mp.Measures)
-	} else if err := readMeasures(r, &mp.Range, mp.Measures); err != nil {
+		mp.M.empty(mp.NumberOfPoints)
+	} else if err := mp.M.read(r, mp.NumberOfPoints); err != nil {
 		return nil, err
 	}
 

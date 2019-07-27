@@ -109,6 +109,8 @@ func (r *Reader) Next() (Shape, error) {
 		return readPointM(r.shp, cl)
 	case TypeMultiPointM:
 		return readMultiPointM(r.shp, cl)
+	case TypePolylineM:
+		return readPolylineM(r.shp, cl)
 	case TypePolygonM:
 		return readPolygonM(r.shp, cl)
 	}

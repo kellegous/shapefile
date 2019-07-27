@@ -6,8 +6,8 @@ import (
 	"io"
 )
 
-// PolygonM ...
-type PolygonM struct {
+// PolylineM ...
+type PolylineM struct {
 	BBox           BBox
 	NumberOfParts  int32
 	NumberOfPoints int32
@@ -16,8 +16,8 @@ type PolygonM struct {
 	M
 }
 
-func readPolygonM(r io.Reader, cl int32) (*PolygonM, error) {
-	var p PolygonM
+func readPolylineM(r io.Reader, cl int32) (*PolylineM, error) {
+	var p PolylineM
 
 	// BBox
 	if err := binary.Read(r, binary.LittleEndian, &p.BBox); err != nil {
@@ -36,9 +36,8 @@ func readPolygonM(r io.Reader, cl int32) (*PolygonM, error) {
 
 	min := 22 + 2*p.NumberOfParts + 8*p.NumberOfPoints
 	max := min + 8 + 4*p.NumberOfPoints
-
 	if cl != min && cl != max {
-		return nil, fmt.Errorf("invalid content length for PolygonM: %d", cl)
+		return nil, fmt.Errorf("invalid content length for PolylineM: %d", cl)
 	}
 
 	// Parts
