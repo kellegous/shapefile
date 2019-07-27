@@ -149,6 +149,11 @@ func shapesAreSame(a, b Shape) bool {
 			return polylineMsAreSame(at, bt)
 		}
 		return false
+	case *PolygonM:
+		if bt, ok := b.(*PolygonM); ok {
+			return polygonMsAreSame(at, bt)
+		}
+		return false
 	}
 
 	return false
