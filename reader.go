@@ -123,10 +123,13 @@ func (r *Reader) Next() (Shape, error) {
 }
 
 // NewReader ...
-func NewReader(shp io.Reader, dbf io.Reader) (*Reader, error) {
+func NewReader(shp io.Reader, opts ...Option) (*Reader, error) {
 	r := &Reader{
 		shp: shp,
-		dbf: dbf,
+	}
+
+	for _, opt := range opts {
+		opt(r)
 	}
 
 	if err := readHeader(shp, &r.Header); err != nil {

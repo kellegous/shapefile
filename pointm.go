@@ -21,5 +21,7 @@ func readPointM(r io.Reader, cl int32) (*PointM, error) {
 		return nil, err
 	}
 
+	pt.M = doubleToFloat64(pt.M)
+
 	return &pt, nil
 }
