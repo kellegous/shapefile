@@ -113,6 +113,8 @@ func (r *Reader) Next() (Shape, error) {
 		return readPolylineM(r.shp, cl)
 	case TypePolygonM:
 		return readPolygonM(r.shp, cl)
+	case TypePointZ:
+		return readPointZ(r.shp, cl)
 	}
 
 	// TODO(knorton): just discard the bytes for now.
