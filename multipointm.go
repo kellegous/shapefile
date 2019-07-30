@@ -14,10 +14,6 @@ type MultiPointM struct {
 	M
 }
 
-func sizeOfMultiPointM(n int32) int32 {
-	return 28 + n*8 + n*4
-}
-
 func readMultiPointM(r io.Reader, cl int32) (*MultiPointM, error) {
 	var mp MultiPointM
 

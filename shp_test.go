@@ -48,6 +48,8 @@ func denormalizeAnyMeasures(data interface{}) {
 			denormalizeMeasures(&t.M)
 		case *PointZ:
 			t.M = float64ToDouble(t.M)
+		case *MultiPointZ:
+			denormalizeMeasures(&t.M)
 		}
 	}
 }
@@ -88,7 +90,26 @@ func allInt32sAreSame(a, b []int32) bool {
 	return true
 }
 
-func float64sAreSame(a, b float64) bool {
+func allFloat64sAreSame(a, b []float64) bool {
+	if len(a) != len(b) {
+		return false
+	}
+
+	for i, n := 0, len(a); i < n; i++ {
+		if math.Abs(a[i]-b[i]) >= 0.0001 {
+			return false
+		}
+	}
+
+	return true
+}
+
+func rangesAreSame(a, b *Range) bool {
+	return math.Abs(a.Min-b.Min) < 0.0001 &&
+		math.Abs(a.Max-b.Max) < 0.0001
+}
+
+func measureFloatsAreSame(a, b float64) bool {
 	if math.IsNaN(a) && math.IsNaN(b) {
 		return true
 	}
@@ -96,8 +117,8 @@ func float64sAreSame(a, b float64) bool {
 }
 
 func measuresAreSame(a, b *M) bool {
-	if !float64sAreSame(a.Range.Min, b.Range.Min) ||
-		!float64sAreSame(a.Range.Max, b.Range.Max) {
+	if !measureFloatsAreSame(a.Range.Min, b.Range.Min) ||
+		!measureFloatsAreSame(a.Range.Max, b.Range.Max) {
 		return false
 	}
 
@@ -106,7 +127,7 @@ func measuresAreSame(a, b *M) bool {
 	}
 
 	for i, n := 0, len(a.Measures); i < n; i++ {
-		if !float64sAreSame(a.Measures[i], b.Measures[i]) {
+		if !measureFloatsAreSame(a.Measures[i], b.Measures[i]) {
 			return false
 		}
 	}
@@ -159,6 +180,11 @@ func shapesAreSame(a, b Shape) bool {
 	case *PointZ:
 		if bt, ok := b.(*PointZ); ok {
 			return pointZsAreSame(at, bt)
+		}
+		return false
+	case *MultiPointZ:
+		if bt, ok := b.(*MultiPointZ); ok {
+			return multipointZsAreSame(at, bt)
 		}
 		return false
 	}

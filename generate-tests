@@ -101,6 +101,20 @@ def main():
         w.record('a')
         w.pointz(10, 20, 30)
         w.record('b')
+    with shapefile.Writer('test_files/multipointz') as w:
+        w.field('name', 'C')
+        w.multipointz([
+            [0, 0, 0, 100.0],
+            [10, 10, 1, 200.0],
+            [20, 10, 2, None],
+            [5, 5, 3, 400.0],
+        ])
+        w.record('a')
+        w.multipointz([
+            [0, 0, 0, 12.2],
+            [4, 5, 6, 13.3]
+        ])
+        w.record('b')
 
 if __name__ == '__main__':
     sys.exit(main())
