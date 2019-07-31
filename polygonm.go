@@ -13,7 +13,7 @@ type PolygonM struct {
 	NumberOfPoints int32
 	Parts          []int32
 	Points         []Point
-	M
+	MData
 }
 
 func readPolygonM(r io.Reader, cl int32) (*PolygonM, error) {
@@ -55,8 +55,8 @@ func readPolygonM(r io.Reader, cl int32) (*PolygonM, error) {
 
 	// Measures
 	if cl == min {
-		p.M.empty(p.NumberOfPoints)
-	} else if err := p.M.read(r, p.NumberOfPoints); err != nil {
+		p.MData.empty(p.NumberOfPoints)
+	} else if err := p.MData.read(r, p.NumberOfPoints); err != nil {
 		return nil, err
 	}
 

@@ -13,7 +13,7 @@ type PolylineM struct {
 	NumberOfPoints int32
 	Parts          []int32
 	Points         []Point
-	M
+	MData
 }
 
 func readPolylineM(r io.Reader, cl int32) (*PolylineM, error) {
@@ -52,10 +52,10 @@ func readPolylineM(r io.Reader, cl int32) (*PolylineM, error) {
 		return nil, err
 	}
 
-	// Measures
+	// MData
 	if cl == min {
-		p.M.empty(p.NumberOfPoints)
-	} else if err := p.M.read(r, p.NumberOfPoints); err != nil {
+		p.MData.empty(p.NumberOfPoints)
+	} else if err := p.MData.read(r, p.NumberOfPoints); err != nil {
 		return nil, err
 	}
 

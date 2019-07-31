@@ -6,39 +6,39 @@ import (
 	"math"
 )
 
-// M ...
-type M struct {
-	Range    Range
-	Measures []float64
+// MData ...
+type MData struct {
+	MRange    Range
+	M []float64
 }
 
-func (m *M) empty(n int32) {
+func (m *MData) empty(n int32) {
 	nan := math.NaN()
-	m.Range.Min = nan
-	m.Range.Max = nan
+	m.MRange.Min = nan
+	m.MRange.Max = nan
 
-	m.Measures = make([]float64, n)
+	m.M = make([]float64, n)
 	for i := int32(0); i < n; i++ {
-		m.Measures[i] = nan
+		m.M[i] = nan
 	}
 }
 
-func (m *M) read(r io.Reader, n int32) error {
+func (m *MData) read(r io.Reader, n int32) error {
 	// Range
-	if err := binary.Read(r, binary.LittleEndian, &m.Range); err != nil {
+	if err := binary.Read(r, binary.LittleEndian, &m.MRange); err != nil {
 		return err
 	}
 
-	// Measures
-	m.Measures = make([]float64, n)
-	if err := binary.Read(r, binary.LittleEndian, &m.Measures); err != nil {
+	// M
+	m.M = make([]float64, n)
+	if err := binary.Read(r, binary.LittleEndian, &m.M); err != nil {
 		return err
 	}
 
-	m.Range.Min = doubleToFloat64(m.Range.Min)
-	m.Range.Max = doubleToFloat64(m.Range.Max)
-	for i, n := 0, len(m.Measures); i < n; i++ {
-		m.Measures[i] = doubleToFloat64(m.Measures[i])
+	m.MRange.Min = doubleToFloat64(m.MRange.Min)
+	m.MRange.Max = doubleToFloat64(m.MRange.Max)
+	for i, n := 0, len(m.M); i < n; i++ {
+		m.M[i] = doubleToFloat64(m.M[i])
 	}
 
 	return nil

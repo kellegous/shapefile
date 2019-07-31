@@ -22,11 +22,11 @@ func float64ToDouble(v float64) float64 {
 	return v
 }
 
-func denormalizeMeasures(m *M) {
-	m.Range.Min = float64ToDouble(m.Range.Min)
-	m.Range.Max = float64ToDouble(m.Range.Max)
-	for i, n := 0, len(m.Measures); i < n; i++ {
-		m.Measures[i] = float64ToDouble(m.Measures[i])
+func denormalizeMeasures(m *MData) {
+	m.MRange.Min = float64ToDouble(m.MRange.Min)
+	m.MRange.Max = float64ToDouble(m.MRange.Max)
+	for i, n := 0, len(m.M); i < n; i++ {
+		m.M[i] = float64ToDouble(m.M[i])
 	}
 }
 
@@ -41,15 +41,17 @@ func denormalizeAnyMeasures(data interface{}) {
 		case *PointM:
 			t.M = float64ToDouble(t.M)
 		case *MultiPointM:
-			denormalizeMeasures(&t.M)
+			denormalizeMeasures(&t.MData)
 		case *PolylineM:
-			denormalizeMeasures(&t.M)
+			denormalizeMeasures(&t.MData)
 		case *PolygonM:
-			denormalizeMeasures(&t.M)
+			denormalizeMeasures(&t.MData)
 		case *PointZ:
 			t.M = float64ToDouble(t.M)
 		case *MultiPointZ:
-			denormalizeMeasures(&t.M)
+			denormalizeMeasures(&t.MData)
+		case *PolylineZ:
+			denormalizeMeasures(&t.MData)
 		}
 	}
 }
@@ -109,25 +111,25 @@ func rangesAreSame(a, b *Range) bool {
 		math.Abs(a.Max-b.Max) < 0.0001
 }
 
-func measureFloatsAreSame(a, b float64) bool {
+func mdataFloatsAreSame(a, b float64) bool {
 	if math.IsNaN(a) && math.IsNaN(b) {
 		return true
 	}
 	return math.Abs(a-b) < 0.0001
 }
 
-func measuresAreSame(a, b *M) bool {
-	if !measureFloatsAreSame(a.Range.Min, b.Range.Min) ||
-		!measureFloatsAreSame(a.Range.Max, b.Range.Max) {
+func mdatasAreSame(a, b *MData) bool {
+	if !mdataFloatsAreSame(a.MRange.Min, b.MRange.Min) ||
+		!mdataFloatsAreSame(a.MRange.Max, b.MRange.Max) {
 		return false
 	}
 
-	if len(a.Measures) != len(b.Measures) {
+	if len(a.M) != len(b.M) {
 		return false
 	}
 
-	for i, n := 0, len(a.Measures); i < n; i++ {
-		if !measureFloatsAreSame(a.Measures[i], b.Measures[i]) {
+	for i, n := 0, len(a.M); i < n; i++ {
+		if !mdataFloatsAreSame(a.M[i], b.M[i]) {
 			return false
 		}
 	}
@@ -185,6 +187,11 @@ func shapesAreSame(a, b Shape) bool {
 	case *MultiPointZ:
 		if bt, ok := b.(*MultiPointZ); ok {
 			return multipointZsAreSame(at, bt)
+		}
+		return false
+	case *PolylineZ:
+		if bt, ok := b.(*PolylineZ); ok {
+			return polylineZsAreSame(at, bt)
 		}
 		return false
 	}

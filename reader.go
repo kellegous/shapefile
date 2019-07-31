@@ -117,6 +117,8 @@ func (r *Reader) Next() (Shape, error) {
 		return readPointZ(r.shp, cl)
 	case TypeMultiPointZ:
 		return readMultiPointZ(r.shp, cl)
+	case TypePolylineZ:
+		return readPolylineZ(r.shp, cl)
 	}
 
 	// TODO(knorton): just discard the bytes for now.

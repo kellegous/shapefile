@@ -6,21 +6,28 @@ import (
 	"io"
 )
 
-// MultiPointZ ...
-type MultiPointZ struct {
+// PolylineZ ...
+type PolylineZ struct {
 	BBox           BBox
+	NumberOfParts  int32
 	NumberOfPoints int32
+	Parts          []int32
 	Points         []Point
 	ZRange         Range
 	Z              []float64
 	MData
 }
 
-func readMultiPointZ(r io.Reader, cl int32) (*MultiPointZ, error) {
-	var s MultiPointZ
+func readPolylineZ(r io.Reader, cl int32) (*PolylineZ, error) {
+	var s PolylineZ
 
 	// BBox
 	if err := binary.Read(r, binary.LittleEndian, &s.BBox); err != nil {
+		return nil, err
+	}
+
+	// NumberOfParts
+	if err := binary.Read(r, binary.LittleEndian, &s.NumberOfParts); err != nil {
 		return nil, err
 	}
 
@@ -29,10 +36,16 @@ func readMultiPointZ(r io.Reader, cl int32) (*MultiPointZ, error) {
 		return nil, err
 	}
 
-	min := 28 + 12*s.NumberOfPoints
+	min := 30 + 2*s.NumberOfParts + 12*s.NumberOfPoints
 	max := min + 8 + 4*s.NumberOfPoints
 	if cl != min && cl != max {
-		return nil, fmt.Errorf("invalid content length for MultiPointZ: %d", cl)
+		return nil, fmt.Errorf("invalid content length for PolylineZ: %d", cl)
+	}
+
+	// Parts
+	s.Parts = make([]int32, s.NumberOfParts)
+	if err := binary.Read(r, binary.LittleEndian, &s.Parts); err != nil {
+		return nil, err
 	}
 
 	// Points

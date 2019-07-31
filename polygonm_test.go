@@ -11,7 +11,7 @@ func polygonMsAreSame(a, b *PolygonM) bool {
 		a.NumberOfPoints == b.NumberOfPoints &&
 		allInt32sAreSame(a.Parts, b.Parts) &&
 		allPointsAreSame(a.Points, b.Points) &&
-		measuresAreSame(&a.M, &b.M)
+		mdatasAreSame(&a.MData, &b.MData)
 }
 
 func TestPolygonM(t *testing.T) {
@@ -39,9 +39,9 @@ func TestPolygonM(t *testing.T) {
 					Point{4, 1},
 					Point{1, 1},
 				},
-				M: M{
-					Range:    Range{1, 5},
-					Measures: []float64{1, 2, 3, 4, 5, math.NaN(), 1, math.NaN(), 2, math.NaN()},
+				MData: MData{
+					MRange:    Range{1, 5},
+					M: []float64{1, 2, 3, 4, 5, math.NaN(), 1, math.NaN(), 2, math.NaN()},
 				},
 			},
 			&PolygonM{
@@ -55,9 +55,9 @@ func TestPolygonM(t *testing.T) {
 					Point{5, 0},
 					Point{0, 0},
 				},
-				M: M{
-					Range:    Range{100, 400.1},
-					Measures: []float64{100, 200, 300, 400.1},
+				MData: MData{
+					MRange:    Range{100, 400.1},
+					M: []float64{100, 200, 300, 400.1},
 				},
 			},
 		},

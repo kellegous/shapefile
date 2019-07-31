@@ -11,7 +11,7 @@ func multipointZsAreSame(a, b *MultiPointZ) bool {
 		allPointsAreSame(a.Points, b.Points) &&
 		rangesAreSame(&a.ZRange, &b.ZRange) &&
 		allFloat64sAreSame(a.Z, b.Z) &&
-		measuresAreSame(&a.M, &b.M)
+		mdatasAreSame(&a.MData, &b.MData)
 }
 
 func TestMultiPointZ(t *testing.T) {
@@ -33,9 +33,9 @@ func TestMultiPointZ(t *testing.T) {
 				},
 				ZRange: Range{0, 3},
 				Z:      []float64{0, 1, 2, 3},
-				M: M{
-					Range:    Range{100, 400},
-					Measures: []float64{100, 200, math.NaN(), 400},
+				MData: MData{
+					MRange:    Range{100, 400},
+					M: []float64{100, 200, math.NaN(), 400},
 				},
 			},
 			&MultiPointZ{
@@ -47,9 +47,9 @@ func TestMultiPointZ(t *testing.T) {
 				},
 				ZRange: Range{0, 6},
 				Z:      []float64{0, 6},
-				M: M{
-					Range:    Range{12.2, 13.3},
-					Measures: []float64{12.2, 13.3},
+				MData: MData{
+					MRange:    Range{12.2, 13.3},
+					M: []float64{12.2, 13.3},
 				},
 			},
 		},

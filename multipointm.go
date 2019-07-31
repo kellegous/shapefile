@@ -11,7 +11,7 @@ type MultiPointM struct {
 	BBox           BBox
 	NumberOfPoints int32
 	Points         []Point
-	M
+	MData
 }
 
 func readMultiPointM(r io.Reader, cl int32) (*MultiPointM, error) {
@@ -40,10 +40,10 @@ func readMultiPointM(r io.Reader, cl int32) (*MultiPointM, error) {
 		return nil, err
 	}
 
-	// Measures
+	// MData
 	if cl == min {
-		mp.M.empty(mp.NumberOfPoints)
-	} else if err := mp.M.read(r, mp.NumberOfPoints); err != nil {
+		mp.MData.empty(mp.NumberOfPoints)
+	} else if err := mp.MData.read(r, mp.NumberOfPoints); err != nil {
 		return nil, err
 	}
 
