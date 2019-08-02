@@ -137,6 +137,17 @@ def main():
             [[0, 0, 0, 100.0], [5, 5, 5, 200.0], [5, 0, 0, 300.0], [0, 0, 0, 400.1]]
         ])
         w.record('b')
+    with shapefile.Writer('test_files/multipatch') as w:
+        w.field('name', 'C')
+        w.multipatch([
+                [[0, 0, 0, 12.0], [0, 10, 0, 13.0], [10, 10, 0, 14.0], [10, 0, 0, 15.0], [20, 0, 0, 16.0]],
+            ], [shapefile.TRIANGLE_STRIP])
+        w.record('a')
+        w.multipatch([
+            [[0, 0, 1, 100], [5, 0, 1, 200], [5, 5, 1, 300], [0, 5, 1, 400], [0, 0, 1, 500]],
+            [[1, 1, 1, 100], [4, 1, 1, 200], [4, 4, 1, 300], [1, 4, 1, 400], [1, 1, 1, 600]]
+        ], [shapefile.OUTER_RING, shapefile.RING])
+        w.record('b')
 
 if __name__ == '__main__':
     sys.exit(main())

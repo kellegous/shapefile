@@ -3,6 +3,7 @@ package shp
 import (
 	"encoding/binary"
 	"errors"
+	"fmt"
 	"io"
 )
 
@@ -121,15 +122,11 @@ func (r *Reader) Next() (Shape, error) {
 		return readPolylineZ(r.shp, cl)
 	case TypePolygonZ:
 		return readPolygonZ(r.shp, cl)
+	case TypeMultiPatch:
+		return readMultiPatch(r.shp, cl)
 	}
 
-	// TODO(knorton): just discard the bytes for now.
-	buf := make([]byte, cl*2-4)
-	if _, err := io.ReadAtLeast(r.shp, buf, len(buf)); err != nil {
-		return nil, err
-	}
-
-	return nil, nil
+	return nil, fmt.Errorf("unknown ShapeType %d", st)
 }
 
 // NewReader ...

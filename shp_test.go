@@ -54,6 +54,8 @@ func denormalizeAnyMeasures(data interface{}) {
 			denormalizeMeasures(&t.MData)
 		case *PolygonZ:
 			denormalizeMeasures(&t.MData)
+		case *MultiPatch:
+			denormalizeMeasures(&t.MData)
 		}
 	}
 }
@@ -199,6 +201,11 @@ func shapesAreSame(a, b Shape) bool {
 	case *PolygonZ:
 		if bt, ok := b.(*PolygonZ); ok {
 			return polygonZsAreSame(at, bt)
+		}
+		return false
+	case *MultiPatch:
+		if bt, ok := b.(*MultiPatch); ok {
+			return multiPatchesAreSame(at, bt)
 		}
 		return false
 	}
