@@ -34,9 +34,6 @@ const (
 	// TypePointM ...
 	TypePointM = 21
 
-	// TypeLineM ...
-	TypeLineM = 23
-
 	// TypePolylineM ...
 	TypePolylineM = 23
 

@@ -173,6 +173,11 @@ func shapesAreSame(a, b Shape) bool {
 			return pointMsAreSame(at, bt)
 		}
 		return false
+	case *MultiPointM:
+		if bt, ok := b.(*MultiPointM); ok {
+			return multiPointMsAreSame(at, bt)
+		}
+		return false
 	case *PolylineM:
 		if bt, ok := b.(*PolylineM); ok {
 			return polylineMsAreSame(at, bt)
