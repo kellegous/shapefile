@@ -1,3 +1,3 @@
-module github.com/kellegous/shp
+module github.com/kellegous/shapefile
 
 go 1.12

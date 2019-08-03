@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/kellegous/shp"
+	"github.com/kellegous/shapefile/shp"
 )
 
 func main() {

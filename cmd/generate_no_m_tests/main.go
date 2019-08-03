@@ -10,7 +10,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/kellegous/shp"
+	"github.com/kellegous/shapefile/shp"
 )
 
 var sources = []string{
