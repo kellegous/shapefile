@@ -9,15 +9,14 @@ import (
 
 // Reader ...
 type Reader struct {
-	shp io.Reader
-	dbf io.Reader
 	Header
+	r io.Reader
 }
 
 // Header ...
 type Header struct {
 	FileLength int32
-	ShapeType  int32
+	ShapeType  ShapeType
 	BBox       BBox
 }
 
@@ -59,8 +58,7 @@ func readHeader(r io.Reader, hdr *Header) error {
 	}
 
 	// Shape Type
-	hdr.ShapeType, err = readInteger(r, binary.LittleEndian)
-	if err != nil {
+	if err := binary.Read(r, binary.LittleEndian, &hdr.ShapeType); err != nil {
 		return err
 	}
 
@@ -79,11 +77,11 @@ func readHeader(r io.Reader, hdr *Header) error {
 
 // Next ...
 func (r *Reader) Next() (Shape, error) {
-	if _, err := readInteger(r.shp, binary.BigEndian); err != nil {
+	if _, err := readInteger(r.r, binary.BigEndian); err != nil {
 		return nil, err
 	}
 
-	cl, err := readInteger(r.shp, binary.BigEndian)
+	cl, err := readInteger(r.r, binary.BigEndian)
 	if err == io.EOF {
 		return nil, io.ErrUnexpectedEOF
 	} else if err != nil {
@@ -91,57 +89,53 @@ func (r *Reader) Next() (Shape, error) {
 	}
 
 	var st ShapeType
-	if err := binary.Read(r.shp, binary.LittleEndian, &st); err != nil {
+	if err := binary.Read(r.r, binary.LittleEndian, &st); err != nil {
 		return nil, err
 	}
 
 	switch st {
 	case TypeNull:
-		return readNull(r.shp, cl)
+		return readNull(r.r, cl)
 	case TypePoint:
-		return readPoint(r.shp, cl)
+		return readPoint(r.r, cl)
 	case TypeMultiPoint:
-		return readMultiPoint(r.shp, cl)
+		return readMultiPoint(r.r, cl)
 	case TypePolyline:
-		return readPolyline(r.shp, cl)
+		return readPolyline(r.r, cl)
 	case TypePolygon:
-		return readPolygon(r.shp, cl)
+		return readPolygon(r.r, cl)
 	case TypePointM:
-		return readPointM(r.shp, cl)
+		return readPointM(r.r, cl)
 	case TypeMultiPointM:
-		return readMultiPointM(r.shp, cl)
+		return readMultiPointM(r.r, cl)
 	case TypePolylineM:
-		return readPolylineM(r.shp, cl)
+		return readPolylineM(r.r, cl)
 	case TypePolygonM:
-		return readPolygonM(r.shp, cl)
+		return readPolygonM(r.r, cl)
 	case TypePointZ:
-		return readPointZ(r.shp, cl)
+		return readPointZ(r.r, cl)
 	case TypeMultiPointZ:
-		return readMultiPointZ(r.shp, cl)
+		return readMultiPointZ(r.r, cl)
 	case TypePolylineZ:
-		return readPolylineZ(r.shp, cl)
+		return readPolylineZ(r.r, cl)
 	case TypePolygonZ:
-		return readPolygonZ(r.shp, cl)
+		return readPolygonZ(r.r, cl)
 	case TypeMultiPatch:
-		return readMultiPatch(r.shp, cl)
+		return readMultiPatch(r.r, cl)
 	}
 
 	return nil, fmt.Errorf("unknown ShapeType %d", st)
 }
 
 // NewReader ...
-func NewReader(shp io.Reader, opts ...Option) (*Reader, error) {
-	r := &Reader{
-		shp: shp,
+func NewReader(r io.Reader) (*Reader, error) {
+	sr := &Reader{
+		r: r,
 	}
 
-	for _, opt := range opts {
-		opt(r)
-	}
-
-	if err := readHeader(shp, &r.Header); err != nil {
+	if err := readHeader(r, &sr.Header); err != nil {
 		return nil, err
 	}
 
-	return r, nil
+	return sr, nil
 }
