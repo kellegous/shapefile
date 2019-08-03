@@ -15,7 +15,7 @@ func polygonMsAreSame(a, b *PolygonM) bool {
 }
 
 func TestPolygonM(t *testing.T) {
-	expectIn(t, "test_files/polygonm", &Expected{
+	expectIn(t, "../test_files/polygonm", &Expected{
 		Header: &Header{
 			FileLength: 292,
 			ShapeType:  TypePolygonM,
@@ -65,7 +65,7 @@ func TestPolygonM(t *testing.T) {
 }
 
 func TestPolygonMOptionalM(t *testing.T) {
-	expectIn(t, "test_files/polygonm_no_m", &Expected{
+	expectIn(t, "../test_files/polygonm_no_m", &Expected{
 		Header: &Header{
 			FileLength: 220,
 			ShapeType:  TypePolygonM,

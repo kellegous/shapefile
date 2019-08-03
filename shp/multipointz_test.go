@@ -15,7 +15,7 @@ func multipointZsAreSame(a, b *MultiPointZ) bool {
 }
 
 func TestMultiPointZ(t *testing.T) {
-	expectIn(t, "test_files/multipointz", &Expected{
+	expectIn(t, "../test_files/multipointz", &Expected{
 		Header: &Header{
 			FileLength: 226,
 			ShapeType:  TypeMultiPointZ,
@@ -57,7 +57,7 @@ func TestMultiPointZ(t *testing.T) {
 }
 
 func TestMultiPointZOptionalM(t *testing.T) {
-	expectIn(t, "test_files/multipointz_no_m", &Expected{
+	expectIn(t, "../test_files/multipointz_no_m", &Expected{
 		Header: &Header{
 			FileLength: 186,
 			ShapeType:  TypeMultiPointZ,

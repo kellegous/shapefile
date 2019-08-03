@@ -11,7 +11,7 @@ func polygonsAreSame(a, b *Polygon) bool {
 }
 
 func TestPolygon(t *testing.T) {
-	expectIn(t, "test_files/polygon", &Expected{
+	expectIn(t, "../test_files/polygon", &Expected{
 		Header: &Header{
 			FileLength: 220,
 			ShapeType:  TypePolygon,

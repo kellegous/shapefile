@@ -17,7 +17,7 @@ func polylineZsAreSame(a, b *PolylineZ) bool {
 }
 
 func TestPolylineZ(t *testing.T) {
-	expectIn(t, "test_files/polylinez", &Expected{
+	expectIn(t, "../test_files/polylinez", &Expected{
 		Header: &Header{
 			FileLength: 252,
 			ShapeType:  TypePolylineZ,
@@ -64,7 +64,7 @@ func TestPolylineZ(t *testing.T) {
 }
 
 func TestPolylineZOptionalM(t *testing.T) {
-	expectIn(t, "test_files/polylinez_no_m", &Expected{
+	expectIn(t, "../test_files/polylinez_no_m", &Expected{
 		Header: &Header{
 			FileLength: 208,
 			ShapeType:  TypePolylineZ,

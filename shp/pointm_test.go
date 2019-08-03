@@ -14,7 +14,7 @@ func pointMsAreSame(a, b *PointM) bool {
 }
 
 func TestPointM(t *testing.T) {
-	expectIn(t, "test_files/pointm", &Expected{
+	expectIn(t, "../test_files/pointm", &Expected{
 		Header: &Header{
 			FileLength: 104,
 			ShapeType:  TypePointM,

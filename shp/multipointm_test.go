@@ -13,7 +13,7 @@ func multiPointMsAreSame(a, b *MultiPointM) bool {
 }
 
 func TestMultiPointM(t *testing.T) {
-	expectIn(t, "test_files/multipointm", &Expected{
+	expectIn(t, "../test_files/multipointm", &Expected{
 		Header: &Header{
 			FileLength: 162,
 			ShapeType:  TypeMultiPointM,
@@ -49,7 +49,7 @@ func TestMultiPointM(t *testing.T) {
 }
 
 func TestMultiPointMOptionalM(t *testing.T) {
-	expectIn(t, "test_files/multipointm_no_m", &Expected{
+	expectIn(t, "../test_files/multipointm_no_m", &Expected{
 		Header: &Header{
 			FileLength: 130,
 			ShapeType:  TypeMultiPointM,

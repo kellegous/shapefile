@@ -15,7 +15,7 @@ func polylineMsAreSame(a, b *PolylineM) bool {
 }
 
 func TestPolylineM(t *testing.T) {
-	expectIn(t, "test_files/polylinem", &Expected{
+	expectIn(t, "../test_files/polylinem", &Expected{
 		Header: &Header{
 			FileLength: 208,
 			ShapeType:  TypePolylineM,
@@ -79,7 +79,7 @@ func TestPolylineM(t *testing.T) {
 }
 
 func TestPolylineMOptionalM(t *testing.T) {
-	expectIn(t, "test_files/polylinem_no_m", &Expected{
+	expectIn(t, "../test_files/polylinem_no_m", &Expected{
 		Header: &Header{
 			FileLength: 164,
 			ShapeType:  TypePolylineM,

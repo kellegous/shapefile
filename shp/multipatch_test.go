@@ -30,7 +30,7 @@ func multiPatchesAreSame(a, b *MultiPatch) bool {
 }
 
 func TestMultiPatch(t *testing.T) {
-	expectIn(t, "test_files/multipatch", &Expected{
+	expectIn(t, "../test_files/multipatch", &Expected{
 		Header: &Header{
 			FileLength: 386,
 			ShapeType:  TypeMultiPatch,
@@ -90,7 +90,7 @@ func TestMultiPatch(t *testing.T) {
 }
 
 func TestMultiPatchOptionalM(t *testing.T) {
-	expectIn(t, "test_files/multipatch_no_m", &Expected{
+	expectIn(t, "../test_files/multipatch_no_m", &Expected{
 		Header: &Header{
 			FileLength: 310,
 			ShapeType:  TypeMultiPatch,
