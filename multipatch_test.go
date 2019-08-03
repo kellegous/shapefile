@@ -1,6 +1,9 @@
 package shp
 
-import "testing"
+import (
+	"math"
+	"testing"
+)
 
 func allPartTypesAreSame(a, b []PartType) bool {
 	if len(a) != len(b) {
@@ -80,6 +83,83 @@ func TestMultiPatch(t *testing.T) {
 				MData: MData{
 					MRange: Range{100, 600},
 					M:      []float64{100, 200, 300, 400, 500, 100, 200, 300, 400, 600},
+				},
+			},
+		},
+	})
+}
+
+func TestMultiPatchOptionalM(t *testing.T) {
+	expectIn(t, "test_files/multipatch_no_m", &Expected{
+		Header: &Header{
+			FileLength: 310,
+			ShapeType:  TypeMultiPatch,
+			BBox:       BBox{0, 0, 20, 10},
+		},
+		Shapes: []Shape{
+			&MultiPatch{
+				BBox:           BBox{0, 0, 20, 10},
+				NumberOfParts:  1,
+				NumberOfPoints: 5,
+				Parts:          []int32{0},
+				PartTypes:      []PartType{TriangleStrip},
+				Points: []Point{
+					Point{0, 0},
+					Point{0, 10},
+					Point{10, 10},
+					Point{10, 0},
+					Point{20, 0},
+				},
+				ZRange: Range{0, 0},
+				Z:      []float64{0, 0, 0, 0, 0},
+				MData: MData{
+					MRange: Range{math.NaN(), math.NaN()},
+					M: []float64{
+						math.NaN(),
+						math.NaN(),
+						math.NaN(),
+						math.NaN(),
+						math.NaN(),
+					},
+				},
+			},
+			&MultiPatch{
+				BBox:           BBox{0, 0, 5, 5},
+				NumberOfParts:  2,
+				NumberOfPoints: 10,
+				Parts:          []int32{0, 5},
+				PartTypes: []PartType{
+					OuterRing,
+					Ring,
+				},
+				Points: []Point{
+					Point{0, 0},
+					Point{5, 0},
+					Point{5, 5},
+					Point{0, 5},
+					Point{0, 0},
+					Point{1, 1},
+					Point{4, 1},
+					Point{4, 4},
+					Point{1, 4},
+					Point{1, 1},
+				},
+				ZRange: Range{1, 1},
+				Z:      []float64{1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+				MData: MData{
+					MRange: Range{math.NaN(), math.NaN()},
+					M: []float64{
+						math.NaN(),
+						math.NaN(),
+						math.NaN(),
+						math.NaN(),
+						math.NaN(),
+						math.NaN(),
+						math.NaN(),
+						math.NaN(),
+						math.NaN(),
+						math.NaN(),
+					},
 				},
 			},
 		},
