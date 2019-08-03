@@ -1,15 +1,19 @@
-package shp
+package main
 
 import (
 	"bytes"
 	"encoding/binary"
+	"flag"
 	"fmt"
 	"io"
+	"log"
 	"os"
-	"testing"
+	"path/filepath"
+
+	"github.com/kellegous/shp"
 )
 
-var srcs = []string{
+var sources = []string{
 	"multipointm",
 	"polylinem",
 	"polygonm",
@@ -19,19 +23,19 @@ var srcs = []string{
 	"multipatch",
 }
 
-func sizeOfMData(st ShapeType, rec []byte) int32 {
+func sizeOfMData(st shp.ShapeType, rec []byte) int32 {
 	switch st {
-	case TypeMultiPointM, TypeMultiPointZ:
+	case shp.TypeMultiPointM, shp.TypeMultiPointZ:
 		numPoints := int32(binary.LittleEndian.Uint32(rec[36:40]))
 		return 8 + numPoints*4
-	case TypePolylineM, TypePolylineZ, TypePolygonM, TypePolygonZ, TypeMultiPatch:
+	case shp.TypePolylineM, shp.TypePolylineZ, shp.TypePolygonM, shp.TypePolygonZ, shp.TypeMultiPatch:
 		numPoints := int32(binary.LittleEndian.Uint32(rec[40:44]))
 		return 8 + numPoints*4
 	}
 	return 0
 }
 
-func writeHeader(w io.Writer, h *Header) error {
+func writeHeader(w io.Writer, h *shp.Header) error {
 	// File Code
 	if err := binary.Write(w, binary.BigEndian, int32(9994)); err != nil {
 		return err
@@ -72,7 +76,7 @@ func writeHeader(w io.Writer, h *Header) error {
 	return nil
 }
 
-func rewrite(src, dst string) error {
+func rewriteSHP(src, dst string) error {
 	r, err := os.Open(src)
 	if err != nil {
 		return err
@@ -86,22 +90,22 @@ func rewrite(src, dst string) error {
 	defer w.Close()
 
 	// FileLength will need to be updated
-	var hdr Header
-	if err := readHeader(r, &hdr); err != nil {
+	sr, err := shp.NewReader(r)
+	if err != nil {
 		return err
 	}
 
 	var buf bytes.Buffer
 	for {
-		num, err := readInteger(r, binary.BigEndian)
-		if err == io.EOF {
+		var num int32
+		if err := binary.Read(r, binary.BigEndian, &num); err == io.EOF {
 			break
 		} else if err != nil {
 			return err
 		}
 
-		cl, err := readInteger(r, binary.BigEndian)
-		if err != nil {
+		var cl int32
+		if err := binary.Read(r, binary.BigEndian, &cl); err != nil {
 			return err
 		}
 
@@ -110,13 +114,10 @@ func rewrite(src, dst string) error {
 			return err
 		}
 
-		fmt.Printf("rec: %d\n", len(rec))
-
-		st := ShapeType(int32(binary.LittleEndian.Uint32(rec[:4])))
-		fmt.Printf("Shapetype: %d\n", st)
+		st := shp.ShapeType(int32(binary.LittleEndian.Uint32(rec[:4])))
 
 		ml := sizeOfMData(st, rec)
-		hdr.FileLength -= ml
+		sr.Header.FileLength -= ml
 
 		if err := binary.Write(&buf, binary.BigEndian, num); err != nil {
 			return err
@@ -131,7 +132,7 @@ func rewrite(src, dst string) error {
 		}
 	}
 
-	if err := writeHeader(w, &hdr); err != nil {
+	if err := writeHeader(w, &sr.Header); err != nil {
 		return err
 	}
 
@@ -142,12 +143,43 @@ func rewrite(src, dst string) error {
 	return nil
 }
 
-func TestCreateTests(t *testing.T) {
-	for _, src := range srcs {
-		fmt.Printf("file: %s\n", src)
-		if err := rewrite(fmt.Sprintf("test_files/%s.shp", src),
-			fmt.Sprintf("test_files/%s_no_m.shp", src)); err != nil {
-			t.Fatal(err)
+func copyFile(src, dst string) error {
+	r, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer r.Close()
+
+	w, err := os.Create(dst)
+	if err != nil {
+		return err
+	}
+	defer w.Close()
+
+	if _, err := io.Copy(w, r); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func main() {
+	flagRoot := flag.String("root",
+		".",
+		"root directory")
+	flag.Parse()
+
+	for _, source := range sources {
+		if err := rewriteSHP(
+			filepath.Join(*flagRoot, fmt.Sprintf("test_files/%s.shp", source)),
+			filepath.Join(*flagRoot, fmt.Sprintf("test_files/%s_no_m.shp", source))); err != nil {
+			log.Panic(err)
+		}
+
+		if err := copyFile(
+			filepath.Join(*flagRoot, fmt.Sprintf("test_files/%s.dbf", source)),
+			filepath.Join(*flagRoot, fmt.Sprintf("test_files/%s_no_m.dbf", source))); err != nil {
+			log.Panic(err)
 		}
 	}
 }
