@@ -1,24 +1,35 @@
 #!/usr/bin/env python3
 
+import datetime
 import os
 import shapefile
 import sys
 
 def main():
     with shapefile.Writer('test_files/null') as w:
-        w.field('name', 'C')
+        w.field('NAME', 'C', size=10)
+        w.field('CHAR', 'C')
+        w.field('DATE', 'D')
+        w.field('VALF', 'F', decimal=4)
+        w.field('VALL', 'L')
+        w.field('VALN', 'N')
         w.null()
-        w.record('a')
+        w.record('a', 'foo', datetime.date(2019, 1, 12), 100.45, True, 1000.44)
         w.null()
-        w.record('b')
+        w.record('b', 'bar', datetime.date(1975, 7, 12), 17.45, False, 42.42)
     with shapefile.Writer('test_files/point') as w:
-        w.field('name', 'C')
+        w.field('NAME', 'C', size=10)
+        w.field('CHAR', 'C')
+        w.field('DATE', 'D')
+        w.field('VALF', 'F', decimal=4)
+        w.field('VALL', 'L')
+        w.field('VALN', 'N')
         w.point(10, 20)
-        w.record('a')
+        w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.point(50, 40)
-        w.record('b')
+        w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
     with shapefile.Writer('test_files/multipoint') as w:
-        w.field('name', 'C')
+        w.field('DATA', 'C', size=254)
         w.multipoint([
             [0, 0],
             [10, 10],
@@ -32,122 +43,177 @@ def main():
         ])
         w.record('b')
     with shapefile.Writer('test_files/polyline') as w:
-        w.field('name', 'C')
+        w.field('NAME', 'C', size=10)
+        w.field('CHAR', 'C')
+        w.field('DATE', 'D')
+        w.field('VALF', 'F', decimal=4)
+        w.field('VALL', 'L')
+        w.field('VALN', 'N')
         w.line([
             [[12, 56], [70, 90], [0, 0]],
             [[45, 6], [89.3, 12.2]]
         ])
-        w.record('a')
+        w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.line([
             [[0, 0], [42.42, 66.66]]
         ])
-        w.record('b')
+        w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
     with shapefile.Writer('test_files/polygon') as w:
-        w.field('name', 'C')
+        w.field('NAME', 'C', size=10)
+        w.field('CHAR', 'C')
+        w.field('DATE', 'D')
+        w.field('VALF', 'F', decimal=4)
+        w.field('VALL', 'L')
+        w.field('VALN', 'N')
         w.poly([
             [[0, 0], [0, 5], [5, 5], [5, 0], [0, 0]],
             [[1, 1], [1, 4], [4, 4], [4, 1], [1, 1]]
         ])
-        w.record('a')
+        w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.poly([
             [[0, 0], [5, 5], [5, 0], [0, 0]]
         ])
-        w.record('b')
+        w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
     with shapefile.Writer('test_files/pointm') as w:
-        w.field('name', 'C')
+        w.field('NAME', 'C', size=10)
+        w.field('CHAR', 'C')
+        w.field('DATE', 'D')
+        w.field('VALF', 'F', decimal=4)
+        w.field('VALL', 'L')
+        w.field('VALN', 'N')
         w.pointm(0, 0, 100.0)
-        w.record('a')
+        w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.pointm(42.2, 55.5, 50.0)
-        w.record('b')
+        w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
         w.pointm(20.3, 30.0)
-        w.record('c')
+        w.record('c', 'baz', datetime.date(1975, 7, 10), 17.45, False, 42.42)
     with shapefile.Writer('test_files/multipointm') as w:
-        w.field('name', 'C')
+        w.field('NAME', 'C', size=10)
+        w.field('CHAR', 'C')
+        w.field('DATE', 'D')
+        w.field('VALF', 'F', decimal=4)
+        w.field('VALL', 'L')
+        w.field('VALN', 'N')
         w.multipointm([
             [0.0, 0.0, 4.0],
             [1.0, 2.0, 8.0],
             [3.0, 5.0, None]
         ])
-        w.record('a')
+        w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.multipointm([
             [0.0, 1.0, 100.0]
         ])
-        w.record('b')
+        w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
     with shapefile.Writer('test_files/polylinem') as w:
-        w.field('name', 'C')
+        w.field('NAME', 'C', size=10)
+        w.field('CHAR', 'C')
+        w.field('DATE', 'D')
+        w.field('VALF', 'F', decimal=4)
+        w.field('VALL', 'L')
+        w.field('VALN', 'N')
         w.linem([
             [[12, 56, 10.0], [70, 90, 11.0], [0, 0, 12.0]],
             [[45, 6], [89.3, 12.2, None]]
         ])
-        w.record('a')
+        w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.linem([
             [[0, 0, 4.0], [42.42, 66.66, 5.0]]
         ])
-        w.record('b')
+        w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
     with shapefile.Writer('test_files/polygonm') as w:
-        w.field('name', 'C')
+        w.field('NAME', 'C', size=10)
+        w.field('CHAR', 'C')
+        w.field('DATE', 'D')
+        w.field('VALF', 'F', decimal=4)
+        w.field('VALL', 'L')
+        w.field('VALN', 'N')
         w.polym([
             [[0, 0, 1.0], [0, 5, 2.0], [5, 5, 3.0], [5, 0, 4.0], [0, 0, 5.0]],
             [[1, 1, None], [1, 4, 1.0], [4, 4, None], [4, 1, 2.0], [1, 1, None]]
         ])
-        w.record('a')
+        w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.polym([
             [[0, 0, 100.0], [5, 5, 200.0], [5, 0, 300.0], [0, 0, 400.1]]
         ])
-        w.record('b')
+        w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
     with shapefile.Writer('test_files/pointz') as w:
-        w.field('name', 'C')
+        w.field('NAME', 'C', size=10)
+        w.field('CHAR', 'C')
+        w.field('DATE', 'D')
+        w.field('VALF', 'F', decimal=4)
+        w.field('VALL', 'L')
+        w.field('VALN', 'N')
         w.pointz(0, 0, 0, 100.0)
-        w.record('a')
+        w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.pointz(10, 20, 30)
-        w.record('b')
+        w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
     with shapefile.Writer('test_files/multipointz') as w:
-        w.field('name', 'C')
+        w.field('NAME', 'C', size=10)
+        w.field('CHAR', 'C')
+        w.field('DATE', 'D')
+        w.field('VALF', 'F', decimal=4)
+        w.field('VALL', 'L')
+        w.field('VALN', 'N')
         w.multipointz([
             [0, 0, 0, 100.0],
             [10, 10, 1, 200.0],
             [20, 10, 2, None],
             [5, 5, 3, 400.0],
         ])
-        w.record('a')
+        w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.multipointz([
             [0, 0, 0, 12.2],
             [4, 5, 6, 13.3]
         ])
-        w.record('b')
+        w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
     with shapefile.Writer('test_files/polylinez') as w:
-        w.field('name', 'C')
+        w.field('NAME', 'C', size=10)
+        w.field('CHAR', 'C')
+        w.field('DATE', 'D')
+        w.field('VALF', 'F', decimal=4)
+        w.field('VALL', 'L')
+        w.field('VALN', 'N')
         w.linez([
             [[12, 56, 11.1, 10.0], [70, 90, 22.2, 11.0], [0, 0, 33.3, 12.0]],
             [[45, 6, 44.4], [89.3, 12.2, 55.5, None]]
         ])
-        w.record('a')
+        w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.linez([
             [[0, 0, 66.6, 4.0], [42.42, 66.66, 77.7, 5.0]]
         ])
-        w.record('b')
+        w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
     with shapefile.Writer('test_files/polygonz') as w:
-        w.field('name', 'C')
+        w.field('NAME', 'C', size=10)
+        w.field('CHAR', 'C')
+        w.field('DATE', 'D')
+        w.field('VALF', 'F', decimal=4)
+        w.field('VALL', 'L')
+        w.field('VALN', 'N')
         w.polyz([
             [[0, 0, 0, 1.0], [0, 5, 5, 2.0], [5, 5, 7, 3.0], [5, 0, 9, 4.0], [0, 0, 0, 5.0]],
             [[1, 1, 1, None], [1, 4, 4, 1.0], [4, 4, 4, None], [4, 1, 1, 2.0], [1, 1, 1, None]]
         ])
-        w.record('a')
+        w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.polyz([
             [[0, 0, 0, 100.0], [5, 5, 5, 200.0], [5, 0, 0, 300.0], [0, 0, 0, 400.1]]
         ])
-        w.record('b')
+        w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
     with shapefile.Writer('test_files/multipatch') as w:
-        w.field('name', 'C')
+        w.field('NAME', 'C', size=10)
+        w.field('CHAR', 'C')
+        w.field('DATE', 'D')
+        w.field('VALF', 'F', decimal=4)
+        w.field('VALL', 'L')
+        w.field('VALN', 'N')
         w.multipatch([
                 [[0, 0, 0, 12.0], [0, 10, 0, 13.0], [10, 10, 0, 14.0], [10, 0, 0, 15.0], [20, 0, 0, 16.0]],
             ], [shapefile.TRIANGLE_STRIP])
-        w.record('a')
+        w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.multipatch([
             [[0, 0, 1, 100], [5, 0, 1, 200], [5, 5, 1, 300], [0, 5, 1, 400], [0, 0, 1, 500]],
             [[1, 1, 1, 100], [4, 1, 1, 200], [4, 4, 1, 300], [1, 4, 1, 400], [1, 1, 1, 600]]
         ], [shapefile.OUTER_RING, shapefile.RING])
-        w.record('b')
+        w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
 
 if __name__ == '__main__':
     sys.exit(main())
