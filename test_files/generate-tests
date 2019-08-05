@@ -6,9 +6,7 @@ import shapefile
 import sys
 
 def main():
-    here = os.path.dirname(__file__)
-    os.chdir(here)
-    with shapefile.Writer('null') as w:
+    with shapefile.Writer('test_files/null') as w:
         w.field('NAME', 'C', size=10)
         w.field('CHAR', 'C')
         w.field('DATE', 'D')
@@ -19,7 +17,7 @@ def main():
         w.record('a', 'foo', datetime.date(2019, 1, 12), 100.45, True, 1000.44)
         w.null()
         w.record('b', 'bar', datetime.date(1975, 7, 12), 17.45, False, 42.42)
-    with shapefile.Writer('point') as w:
+    with shapefile.Writer('test_files/point') as w:
         w.field('NAME', 'C', size=10)
         w.field('CHAR', 'C')
         w.field('DATE', 'D')
@@ -30,7 +28,7 @@ def main():
         w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.point(50, 40)
         w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
-    with shapefile.Writer('multipoint') as w:
+    with shapefile.Writer('test_files/multipoint') as w:
         w.field('DATA', 'C', size=254)
         w.multipoint([
             [0, 0],
@@ -44,7 +42,7 @@ def main():
             [4, 5]
         ])
         w.record('b')
-    with shapefile.Writer('polyline') as w:
+    with shapefile.Writer('test_files/polyline') as w:
         w.field('NAME', 'C', size=10)
         w.field('CHAR', 'C')
         w.field('DATE', 'D')
@@ -60,7 +58,7 @@ def main():
             [[0, 0], [42.42, 66.66]]
         ])
         w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
-    with shapefile.Writer('polygon') as w:
+    with shapefile.Writer('test_files/polygon') as w:
         w.field('NAME', 'C', size=10)
         w.field('CHAR', 'C')
         w.field('DATE', 'D')
@@ -76,7 +74,7 @@ def main():
             [[0, 0], [5, 5], [5, 0], [0, 0]]
         ])
         w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
-    with shapefile.Writer('pointm') as w:
+    with shapefile.Writer('test_files/pointm') as w:
         w.field('NAME', 'C', size=10)
         w.field('CHAR', 'C')
         w.field('DATE', 'D')
@@ -89,7 +87,7 @@ def main():
         w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
         w.pointm(20.3, 30.0)
         w.record('c', 'baz', datetime.date(1975, 7, 10), 17.45, False, 42.42)
-    with shapefile.Writer('multipointm') as w:
+    with shapefile.Writer('test_files/multipointm') as w:
         w.field('NAME', 'C', size=10)
         w.field('CHAR', 'C')
         w.field('DATE', 'D')
@@ -106,7 +104,7 @@ def main():
             [0.0, 1.0, 100.0]
         ])
         w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
-    with shapefile.Writer('polylinem') as w:
+    with shapefile.Writer('test_files/polylinem') as w:
         w.field('NAME', 'C', size=10)
         w.field('CHAR', 'C')
         w.field('DATE', 'D')
@@ -122,7 +120,7 @@ def main():
             [[0, 0, 4.0], [42.42, 66.66, 5.0]]
         ])
         w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
-    with shapefile.Writer('polygonm') as w:
+    with shapefile.Writer('test_files/polygonm') as w:
         w.field('NAME', 'C', size=10)
         w.field('CHAR', 'C')
         w.field('DATE', 'D')
@@ -138,7 +136,7 @@ def main():
             [[0, 0, 100.0], [5, 5, 200.0], [5, 0, 300.0], [0, 0, 400.1]]
         ])
         w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
-    with shapefile.Writer('pointz') as w:
+    with shapefile.Writer('test_files/pointz') as w:
         w.field('NAME', 'C', size=10)
         w.field('CHAR', 'C')
         w.field('DATE', 'D')
@@ -149,7 +147,7 @@ def main():
         w.record('a', 'foo', datetime.date(2019, 1, 13), 100.45, True, 1000.44)
         w.pointz(10, 20, 30)
         w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
-    with shapefile.Writer('multipointz') as w:
+    with shapefile.Writer('test_files/multipointz') as w:
         w.field('NAME', 'C', size=10)
         w.field('CHAR', 'C')
         w.field('DATE', 'D')
@@ -168,7 +166,7 @@ def main():
             [4, 5, 6, 13.3]
         ])
         w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
-    with shapefile.Writer('polylinez') as w:
+    with shapefile.Writer('test_files/polylinez') as w:
         w.field('NAME', 'C', size=10)
         w.field('CHAR', 'C')
         w.field('DATE', 'D')
@@ -184,7 +182,7 @@ def main():
             [[0, 0, 66.6, 4.0], [42.42, 66.66, 77.7, 5.0]]
         ])
         w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
-    with shapefile.Writer('polygonz') as w:
+    with shapefile.Writer('test_files/polygonz') as w:
         w.field('NAME', 'C', size=10)
         w.field('CHAR', 'C')
         w.field('DATE', 'D')
@@ -200,7 +198,7 @@ def main():
             [[0, 0, 0, 100.0], [5, 5, 5, 200.0], [5, 0, 0, 300.0], [0, 0, 0, 400.1]]
         ])
         w.record('b', 'bar', datetime.date(1975, 7, 9), 17.45, False, 42.42)
-    with shapefile.Writer('multipatch') as w:
+    with shapefile.Writer('test_files/multipatch') as w:
         w.field('NAME', 'C', size=10)
         w.field('CHAR', 'C')
         w.field('DATE', 'D')
