@@ -13,7 +13,9 @@ bin/readdbf: $(shell find cmd/readdbf dbf -type f -name '*.go')
 	go build -o $@ github.com/kellegous/shapefile/cmd/readdbf
 
 test:
-	go test github.com/kellegous/shapefile/shp github.com/kellegous/shapefile/dbf
+	go test github.com/kellegous/shapefile \
+		github.com/kellegous/shapefile/shp \
+		github.com/kellegous/shapefile/dbf
 
 clean:
 	rm -rf bin

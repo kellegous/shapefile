@@ -69,7 +69,7 @@ var tests = []*Test{
 		},
 	},
 
-	// point
+	// test_files/point
 	&Test{
 		Name: "point",
 		Header: Header{
@@ -122,7 +122,7 @@ var tests = []*Test{
 		},
 	},
 
-	// multipoint
+	// test_files/multipoint
 	&Test{
 		Name: "multipoint",
 		Header: Header{

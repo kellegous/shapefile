@@ -69,5 +69,11 @@ func NewReader(r io.Reader, opts ...Option) (*Reader, error) {
 		shp: sr,
 	}
 
+	for _, opt := range opts {
+		if err := opt(rr); err != nil {
+			return nil, err
+		}
+	}
+
 	return rr, nil
 }
