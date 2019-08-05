@@ -1,8 +1,6 @@
 language: go
-
 go:
-    - 1.12
-    - tip
-
+  - 1.12
+  - tip
 script:
-	go test github.com/kellegous/shapefile github.com/kellegous/shapefile/shp github.com/kellegous/shapefile/dbf
+  - go test github.com/kellegous/shapefile github.com/kellegous/shapefile/shp github.com/kellegous/shapefile/dbf
