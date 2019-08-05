@@ -1,39 +1,48 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"io"
-	"log"
 	"os"
 
+	"github.com/kellegous/shapefile"
 	"github.com/kellegous/shapefile/shp"
 )
 
 func main() {
-	flagShp := flag.String("shp", "", "shp file")
-	flag.Parse()
-
-	rs, err := os.Open(*flagShp)
+	sr, err := os.Open("data.shp")
 	if err != nil {
-		log.Panic(err)
+		panic(err)
 	}
-	defer rs.Close()
+	defer sr.Close()
 
-	r, err := shp.NewReader(rs)
+	dr, err := os.Open("data.dbf")
 	if err != nil {
-		log.Panic(err)
+		panic(err)
 	}
-	log.Println(r)
+	defer dr.Close()
+
+	r, err := shapefile.NewReader(sr, shapefile.WithDBF(dr))
+	if err != nil {
+		panic(err)
+	}
 
 	for {
-		s, err := r.Next()
+		rec, err := r.Next()
 		if err == io.EOF {
 			break
 		} else if err != nil {
-			log.Panic(err)
+			panic(err)
 		}
 
-		fmt.Printf("%#v\n", s)
+		switch s := rec.Shape.(type) {
+		case *shp.Point:
+			fmt.Printf("{X:%0.2f, Y:%.2f}", s.X, s.Y)
+			// ...
+		}
+
+		for i, field := range r.Fields() {
+			fmt.Printf("%s = %s\n", field.Name, rec.Attr(i))
+		}
 	}
 }
