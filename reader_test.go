@@ -103,3 +103,34 @@ func TestNextWithoutDBF(t *testing.T) {
 		t.Fatalf("expected EOF but got %s", err)
 	}
 }
+
+func TestNextUnexpectedEOF(t *testing.T) {
+	// has 3 shapes
+	sr, err := os.Open("test_files/pointm.shp")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer sr.Close()
+
+	// only has 2 records
+	dr, err := os.Open("test_files/multipatch.dbf")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer dr.Close()
+
+	r, err := NewReader(sr, WithDBF(dr))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for i := 0; i < 2; i++ {
+		if _, err := r.Next(); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if _, err := r.Next(); err != io.ErrUnexpectedEOF {
+		t.Fatalf("expected ErrUnexpectedEOF got %s", err)
+	}
+}
