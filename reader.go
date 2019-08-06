@@ -1,6 +1,7 @@
 package shapefile
 
 import (
+	"fmt"
 	"io"
 
 	"github.com/kellegous/shapefile/dbf"
@@ -82,6 +83,7 @@ func NewReader(r io.Reader, opts ...Option) (*Reader, error) {
 
 	for _, opt := range opts {
 		if err := opt(rr); err != nil {
+			fmt.Printf("opts: %s\n", err)
 			return nil, err
 		}
 	}

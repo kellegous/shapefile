@@ -1,48 +1,50 @@
 package main
 
 import (
+	"archive/zip"
 	"fmt"
 	"io"
+	"log"
 	"os"
 
 	"github.com/kellegous/shapefile"
-	"github.com/kellegous/shapefile/shp"
 )
 
+// Filename ...
+const Filename = "al062018_5day_030.zip"
+
 func main() {
-	sr, err := os.Open("data.shp")
+	s, err := os.Stat(Filename)
 	if err != nil {
-		panic(err)
+		log.Panic(err)
+	}
+
+	r, err := os.Open(Filename)
+	if err != nil {
+		log.Panic(err)
+	}
+	defer r.Close()
+
+	zr, err := zip.NewReader(r, s.Size())
+	if err != nil {
+		log.Panic(err)
+	}
+
+	sr, err := shapefile.NewReaderFromZip(
+		zr,
+		"al062018-030_5day_pts")
+	if err != nil {
+		log.Panic(err)
 	}
 	defer sr.Close()
 
-	dr, err := os.Open("data.dbf")
-	if err != nil {
-		panic(err)
-	}
-	defer dr.Close()
-
-	r, err := shapefile.NewReader(sr, shapefile.WithDBF(dr))
-	if err != nil {
-		panic(err)
-	}
-
 	for {
-		rec, err := r.Next()
+		rec, err := sr.Next()
 		if err == io.EOF {
 			break
 		} else if err != nil {
-			panic(err)
+			log.Panic(err)
 		}
-
-		switch s := rec.Shape.(type) {
-		case *shp.Point:
-			fmt.Printf("{X:%0.2f, Y:%.2f}", s.X, s.Y)
-			// ...
-		}
-
-		for i, field := range r.Fields() {
-			fmt.Printf("%s = %s\n", field.Name, rec.Attr(i))
-		}
+		fmt.Printf("%#v\n%#v\n", rec.Shape, rec.Attrs())
 	}
 }
