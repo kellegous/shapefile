@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-// Point ...
+// Point consists of a pair of double-precision coordinates in the order X,Y.
 type Point struct {
 	X, Y float64
 }

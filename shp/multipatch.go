@@ -10,26 +10,36 @@ import (
 type PartType int32
 
 const (
-	// TriangleStrip ...
+	// TriangleStrip indicates the part is a linked strip of triangles,
+	// where every vertex (after the first two) completes a new triangle.
+	// A new triangle is always formed byconnecting the new vertex with
+	// its two immediate predecessors.
 	TriangleStrip PartType = 0
 
-	// TriangleFan ...
+	// TriangleFan indicates the part is a linked fan of triangles,
+	// where every vertex (after the first two) completes a new triangle.
+	// A new triangle is always formed byconnecting the new vertex with
+	// its immediate predecessor and thefirst vertex of the part
 	TriangleFan PartType = 1
 
-	// OuterRing ...
+	// OuterRing indicates the part is the outer ring of a polygon.
 	OuterRing PartType = 2
 
-	// InnerRing ...
+	// InnerRing indicates the part is a hole in a polygon.
 	InnerRing PartType = 3
 
-	// FirstRing ...
+	// FirstRing indicates the part is the first ring of a polygon of
+	// unspecified type.
 	FirstRing PartType = 4
 
-	// Ring ...
+	// Ring indicates the part is a ring of a polygon of unspecified type.
 	Ring PartType = 5
 )
 
-// MultiPatch ...
+// MultiPatch consists of a number of surface patches.  Each surface patch
+// describes a surface.  The surface patches of a MultiPatch are referred
+// to as its parts, and the type ofpart controls how the order of vertices
+// of an MultiPatch part is interpreted.
 type MultiPatch struct {
 	BBox           BBox
 	NumberOfParts  int32

@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-// MultiPoint ...
+// MultiPoint represents a set of points.
 type MultiPoint struct {
 	BBox           BBox
 	NumberOfPoints int32

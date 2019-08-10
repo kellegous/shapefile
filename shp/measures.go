@@ -6,10 +6,11 @@ import (
 	"math"
 )
 
-// MData ...
+// MData encapsulates all the optional data for M type
+// shape records.
 type MData struct {
-	MRange    Range
-	M []float64
+	MRange Range
+	M      []float64
 }
 
 func (m *MData) empty(n int32) {

@@ -5,7 +5,9 @@ import (
 	"io"
 )
 
-// Null ...
+// Null indicates a shape with no geometric data. Each feature type (point,
+// line, polygon, etc.) supports nulls. It is valid to have points and null
+// points in the same shapefile.
 type Null struct{}
 
 func readNull(r io.Reader, cl int32) (*Null, error) {

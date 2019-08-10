@@ -6,7 +6,9 @@ import (
 	"io"
 )
 
-// Polyline ...
+// Polyline is an ordered set of vertices that consists of one or more parts.
+// A part is a connected sequence of two or more points.  Parts may or may not
+// be connected to one another. Parts may or may not intersect one another.
 type Polyline struct {
 	BBox           BBox
 	NumberOfParts  int32
