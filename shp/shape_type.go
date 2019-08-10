@@ -1,49 +1,49 @@
 package shp
 
-// ShapeType ...
+// ShapeType is an enum that specifies the type of the associated Shape.
 type ShapeType int32
 
 const (
-	// TypeNull ...
+	// TypeNull indicates Null
 	TypeNull = 0
 
-	// TypePoint ...
+	// TypePoint indicates Point
 	TypePoint = 1
 
-	// TypePolyline ...
+	// TypePolyline indicates Polyline
 	TypePolyline = 3
 
-	// TypePolygon ...
+	// TypePolygon indicates Polygon
 	TypePolygon = 5
 
-	// TypeMultiPoint ...
+	// TypeMultiPoint indicates MultiPoint
 	TypeMultiPoint = 8
 
-	// TypePointZ ...
+	// TypePointZ indicates PointZ
 	TypePointZ = 11
 
-	// TypePolylineZ ...
+	// TypePolylineZ indicates PolylineZ
 	TypePolylineZ = 13
 
-	// TypePolygonZ ...
+	// TypePolygonZ indicates PolygonZ
 	TypePolygonZ = 15
 
-	// TypeMultiPointZ ...
+	// TypeMultiPointZ indicates MultiPointZ
 	TypeMultiPointZ = 18
 
-	// TypePointM ...
+	// TypePointM indicates PointM
 	TypePointM = 21
 
-	// TypePolylineM ...
+	// TypePolylineM indicates PolylineM
 	TypePolylineM = 23
 
-	// TypePolygonM ...
+	// TypePolygonM indicates PolygonM
 	TypePolygonM = 25
 
-	// TypeMultiPointM ...
+	// TypeMultiPointM indicates MultiPointM
 	TypeMultiPointM = 28
 
-	// TypeMultiPatch ...
+	// TypeMultiPatch indicates MultiPatch
 	TypeMultiPatch = 31
 )
 
