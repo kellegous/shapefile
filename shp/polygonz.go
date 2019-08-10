@@ -6,7 +6,9 @@ import (
 	"io"
 )
 
-// PolygonZ ...
+// PolygonZ represents a polygon in the order X,Y,Z with optional
+// associated measure (M) data. Missing M data is indicated with
+// NaN.
 type PolygonZ struct {
 	BBox           BBox
 	NumberOfParts  int32

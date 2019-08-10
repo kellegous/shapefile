@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-// MultiPointZ ...
+// MultiPointZ represents a set of PointZs.
 type MultiPointZ struct {
 	BBox           BBox
 	NumberOfPoints int32

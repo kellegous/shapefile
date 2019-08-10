@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-// PointM ...
+// PointM is a Point plus a measure M.
 type PointM struct {
 	X, Y, M float64
 }

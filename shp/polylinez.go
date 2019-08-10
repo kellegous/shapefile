@@ -6,7 +6,8 @@ import (
 	"io"
 )
 
-// PolylineZ ...
+// PolylineZ represents a polyline in the order X,Y,Z with optional
+// associated measure (M) data. Missing M data is indicated with NaN.
 type PolylineZ struct {
 	BBox           BBox
 	NumberOfParts  int32

@@ -6,7 +6,8 @@ import (
 	"io"
 )
 
-// MultiPointM ...
+// MultiPointM represents a set of PointMs. Note that the M data is optional
+// and missing values are specified with NaN.
 type MultiPointM struct {
 	BBox           BBox
 	NumberOfPoints int32

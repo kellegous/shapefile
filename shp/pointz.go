@@ -6,7 +6,8 @@ import (
 	"io"
 )
 
-// PointZ ...
+// PointZ is a triplet of double-precision coordinates in the order X,Y,Z, plus
+// a measure.
 type PointZ struct {
 	X, Y, Z, M float64
 }

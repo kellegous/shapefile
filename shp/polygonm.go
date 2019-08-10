@@ -6,7 +6,8 @@ import (
 	"io"
 )
 
-// PolygonM ...
+// PolygonM is a Polygon with optional measure (M) data. Missing M data is
+// specified as NaN.
 type PolygonM struct {
 	BBox           BBox
 	NumberOfParts  int32

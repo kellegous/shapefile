@@ -6,7 +6,8 @@ import (
 	"io"
 )
 
-// PolylineM ...
+// PolylineM is a Polyline with optional measure (M) data. Missing M data is
+// specified as NaN.
 type PolylineM struct {
 	BBox           BBox
 	NumberOfParts  int32
