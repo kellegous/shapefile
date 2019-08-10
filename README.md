@@ -56,26 +56,26 @@ for {
 
 #### Reading shapfile contained in zip archive
 ```go
-	s, err := os.Stat("al062018_5day_035.zip")
-	if err != nil {
-        panic(err)
-	}
-
-	r, err := os.Open("al062018_5day_035.zip")
-	if err != nil {
-        panic(err)
-	}
-	defer r.Close()
-
-	zr, err := zip.NewReader(r, s.Size())
-	if err != nil {
+    s, err := os.Stat("al062018_5day_035.zip")
+    if err != nil {
         panic(err)
     }
 
-	sr, err := NewReaderFromZip(zr, "al062018-035_5day_pts")
-	if err != nil {
+    r, err := os.Open("al062018_5day_035.zip")
+    if err != nil {
         panic(err)
-	}
+    }
+    defer r.Close()
+
+    zr, err := zip.NewReader(r, s.Size())
+    if err != nil {
+        panic(err)
+    }
+
+    sr, err := NewReaderFromZip(zr, "al062018-035_5day_pts")
+    if err != nil {
+        panic(err)
+    }
     defer r.Close()
     
     for {
