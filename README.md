@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/kellegous/shapefile.svg)](https://travis-ci.org/kellegous/shapefile)  [![GoDoc](https://godoc.org/github.com/kellegous/shapefile?status.svg)](http://godoc.org/github.com/kellegous/shapefile)
 
-Pure Go implementation for reading of ESRI Shapefiles as specified by the [ESRI Shapfile Technical Description](chrome-extension://oemmndcbldboiebfnladdacbdfmadadm/https://www.esri.com/library/whitepapers/pdfs/shapefile.pdf). I created this as part of a project that ingests GIS data provided by the National Hurricane Center as I was unable to find similar libraries that didn't need signficant modification.
+Pure Go implementation for reading of ESRI Shapefiles as specified by the [ESRI Shapfile Technical Description](https://www.esri.com/library/whitepapers/pdfs/shapefile.pdf). I created this as part of a project that ingests GIS data provided by the National Hurricane Center as I was unable to find similar libraries that didn't need signficant modification.
 
 ### Use
 
