@@ -52,6 +52,11 @@ type MultiPatch struct {
 	MData
 }
 
+// Type ...
+func (m *MultiPatch) Type() ShapeType {
+	return TypeMultiPatch
+}
+
 func readMultiPatch(r io.Reader, cl int32) (*MultiPatch, error) {
 	var s MultiPatch
 

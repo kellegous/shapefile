@@ -11,6 +11,11 @@ type PointM struct {
 	X, Y, M float64
 }
 
+// Type ...
+func (p *PointM) Type() ShapeType {
+	return TypePointM
+}
+
 func readPointM(r io.Reader, cl int32) (*PointM, error) {
 	if cl != 14 {
 		return nil, fmt.Errorf("unexpected content length for PointM: %d", cl)

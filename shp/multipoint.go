@@ -13,6 +13,11 @@ type MultiPoint struct {
 	Points         []Point
 }
 
+// Type ...
+func (m *MultiPoint) Type() ShapeType {
+	return TypeMultiPoint
+}
+
 func readMultiPoint(r io.Reader, cl int32) (*MultiPoint, error) {
 	var mp MultiPoint
 

@@ -19,6 +19,11 @@ type PolylineZ struct {
 	MData
 }
 
+// Type ...
+func (p *PolylineZ) Type() ShapeType {
+	return TypePolylineZ
+}
+
 func readPolylineZ(r io.Reader, cl int32) (*PolylineZ, error) {
 	var s PolylineZ
 

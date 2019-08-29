@@ -20,6 +20,11 @@ type PolygonZ struct {
 	MData
 }
 
+// Type ...
+func (p *PolygonZ) Type() ShapeType {
+	return TypePolygonZ
+}
+
 func readPolygonZ(r io.Reader, cl int32) (*PolygonZ, error) {
 	var s PolygonZ
 
