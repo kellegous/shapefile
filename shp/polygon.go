@@ -23,6 +23,11 @@ type Polygon struct {
 	Points         []Point
 }
 
+// Type ...
+func (p *Polygon) Type() ShapeType {
+	return TypePolygon
+}
+
 func readPolygon(r io.Reader, cl int32) (*Polygon, error) {
 	var p Polygon
 

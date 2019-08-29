@@ -17,6 +17,11 @@ type Polyline struct {
 	Points         []Point
 }
 
+// Type ...
+func (p *Polyline) Type() ShapeType {
+	return TypePolyline
+}
+
 func readPolyline(r io.Reader, cl int32) (*Polyline, error) {
 	var pl Polyline
 	if err := binary.Read(r, binary.LittleEndian, &pl.BBox); err != nil {

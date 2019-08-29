@@ -17,6 +17,11 @@ type PolygonM struct {
 	MData
 }
 
+// Type ...
+func (p *PolygonM) Type() ShapeType {
+	return TypePointM
+}
+
 func readPolygonM(r io.Reader, cl int32) (*PolygonM, error) {
 	var p PolygonM
 

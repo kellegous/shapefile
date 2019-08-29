@@ -15,6 +15,11 @@ type MultiPointM struct {
 	MData
 }
 
+// Type ...
+func (m *MultiPointM) Type() ShapeType {
+	return TypeMultiPointM
+}
+
 func readMultiPointM(r io.Reader, cl int32) (*MultiPointM, error) {
 	var mp MultiPointM
 

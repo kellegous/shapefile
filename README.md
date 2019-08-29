@@ -72,11 +72,11 @@ for {
         panic(err)
     }
 
-    sr, err := NewReaderFromZip(zr, "al062018-035_5day_pts")
+    sr, err := shapefile.NewReaderFromZip(zr, "al062018-035_5day_pts")
     if err != nil {
         panic(err)
     }
-    defer r.Close()
+    defer sr.Close()
     
     for {
         rec, err := sr.Next()

@@ -10,6 +10,11 @@ import (
 // points in the same shapefile.
 type Null struct{}
 
+// Type ...
+func (n Null) Type() ShapeType {
+	return TypeNull
+}
+
 func readNull(r io.Reader, cl int32) (*Null, error) {
 	if cl != 2 {
 		return nil, fmt.Errorf("unexpected content length for null: %d", cl)
